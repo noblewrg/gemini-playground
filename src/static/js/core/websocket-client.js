@@ -323,7 +323,7 @@ export class MultimodalLiveClient extends EventEmitter {
 	constructor() {
 		super();
 		const wsProtocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-		this.baseUrl = `${wsProtocol}//${window.location.host}/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent`;
+		this.baseUrl = `${wsProtocol}//${window.location.host}/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent?key=${CONFIG.API.KEY}`;
 		this.ws = null;
 		this.config = null;
 		this.send = this.send.bind(this);
@@ -366,7 +366,7 @@ export class MultimodalLiveClient extends EventEmitter {
 				...(config.tools || []),
 			],
 		};
-		const ws = new WebSocket(`${this.baseUrl}?key=${CONFIG.API.KEY}`);
+		const ws = new WebSocket(this.baseUrl);
 
 		ws.addEventListener("message", async (evt) => {
 			if (evt.data instanceof Blob) {
