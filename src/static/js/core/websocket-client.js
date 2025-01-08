@@ -19,16 +19,15 @@ export class MultimodalLiveClient extends EventEmitter {
 	 * @param {Object} options - Configuration options.
 	 * @param {string} [options.url] - The WebSocket URL for the Gemini API. Defaults to a URL constructed with the provided API key.
 	 */
-	constructor({ url, apiKey } = {}) {
+	constructor() {
 	super();
-	this.url =
-		url ||
-		`wss://gemini.gemini2.us.kg/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent?key=AIzaSyDitJzo5XUA7DTYEamKXGzmAXuVR92a5bc`;
+	const wsProtocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+	this.baseUrl = `wss://gemini.gemini2.us.kg/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent?key=${CONFIG.API.KEY}`;
 	this.ws = null;
 	this.config = null;
 	this.send = this.send.bind(this);
 	this.toolManager = new ToolManager();
-        }
+	}
 
 	/**
 	 * Logs a message with a timestamp and type. Emits a 'log' event.
